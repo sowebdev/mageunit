@@ -22,4 +22,16 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->_subject->unsetSingleton('core/store');
         $this->assertInstanceOf('Mage_Core_Model_Store', Mage::getSingleton('core/store'));
     }
+
+    public function testSetHelper()
+    {
+        $this->_subject->setHelper('core', new stdClass());
+        $this->assertInstanceOf('stdClass', Mage::helper('core'));
+    }
+
+    public function testUnsetHelper()
+    {
+        $this->_subject->unsetHelper('core');
+        $this->assertInstanceOf('Mage_Core_Helper_Data', Mage::helper('core'));
+    }
 }

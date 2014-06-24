@@ -2,6 +2,7 @@
 class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
 {
     protected $_singletonRegistryPrefix = '_singleton/';
+    protected $_helperRegistryPrefix = '_helper/';
 
     /**
      * Mocks a singleton
@@ -24,6 +25,36 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     public function unsetSingleton($name)
     {
         $registryKey = $this->_singletonRegistryPrefix . $name;
+        Mage::unregister($registryKey);
+    }
+
+    /**
+     * Mocks a helper
+     *
+     * @param string $name
+     * @param object $mockObject
+     */
+    public function setHelper($name, $mockObject)
+    {
+        if (strpos($name, '/') === false) {
+            $name .= '/data';
+        }
+        $registryKey = $this->_helperRegistryPrefix . $name;
+        Mage::unregister($registryKey);
+        Mage::register($registryKey, $mockObject);
+    }
+
+    /**
+     * Unsets currently registered helper
+     *
+     * @param string $name
+     */
+    public function unsetHelper($name)
+    {
+        if (strpos($name, '/') === false) {
+            $name .= '/data';
+        }
+        $registryKey = $this->_helperRegistryPrefix . $name;
         Mage::unregister($registryKey);
     }
 }
