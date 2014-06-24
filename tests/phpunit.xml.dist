@@ -1,0 +1,15 @@
+<phpunit bootstrap="bootstrap.php" colors="true">
+    <listeners>
+        <listener class="MageUnit_Framework_TestListener"/>
+    </listeners>
+    <testsuites>
+        <testsuite name="MageUnit">
+            <directory>MageUnit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- Define path to Mage.php and MageUnit source files -->
+        <includePath>../../../app</includePath>
+        <includePath>../src</includePath>
+    </php>
+</phpunit>
