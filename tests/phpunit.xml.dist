@@ -1,5 +1,6 @@
 <phpunit bootstrap="bootstrap.php" colors="true">
     <listeners>
+        <!-- Define test listener which will enable us to mock application parts -->
         <listener class="MageUnit_Framework_TestListener"/>
     </listeners>
     <testsuites>
