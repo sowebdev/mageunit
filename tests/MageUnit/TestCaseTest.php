@@ -29,6 +29,18 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('stdClass', Mage::helper('core'));
     }
 
+    public function testSetHelperWithDataSuffix()
+    {
+        $this->_subject->setHelper('core/data', new stdClass());
+        $this->assertInstanceOf('stdClass', Mage::helper('core/data'));
+    }
+
+    public function testSetHelperWithDataSuffixAndCalledWithout()
+    {
+        $this->_subject->setHelper('core/data', new stdClass());
+        $this->assertInstanceOf('stdClass', Mage::helper('core'));
+    }
+
     public function testUnsetHelper()
     {
         $this->_subject->unsetHelper('core');

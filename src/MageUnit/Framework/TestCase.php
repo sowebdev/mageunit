@@ -36,12 +36,12 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      */
     public function setHelper($name, $mockObject)
     {
-        if (strpos($name, '/') === false) {
-            $name .= '/data';
+        $registerNames = $this->_getHelperNameWithAlias($name);
+        foreach ($registerNames as $n) {
+            $registerKey = $this->_helperRegistryPrefix . $n;
+            Mage::unregister($registerKey);
+            Mage::register($registerKey, $mockObject);
         }
-        $registryKey = $this->_helperRegistryPrefix . $name;
-        Mage::unregister($registryKey);
-        Mage::register($registryKey, $mockObject);
     }
 
     /**
@@ -51,11 +51,30 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      */
     public function unsetHelper($name)
     {
+        $unregisterNames = $this->_getHelperNameWithAlias($name);
+        foreach ($unregisterNames as $n) {
+            $registerKey = $this->_helperRegistryPrefix . $n;
+            Mage::unregister($registerKey);
+        }
+    }
+
+    /**
+     * Checks if a helper name could have an alias (this happens with default "data" helpers)
+     * and returns an array of valid names.
+     *
+     * @param string $name
+     * @return array
+     */
+    protected function _getHelperNameWithAlias($name)
+    {
         if (strpos($name, '/') === false) {
             $name .= '/data';
         }
-        $registryKey = $this->_helperRegistryPrefix . $name;
-        Mage::unregister($registryKey);
+        $helperNames = array($name);
+        if (strpos($name, '/data') + 5 == strlen($name)) {
+            $helperNames[] = substr($name, 0, strpos($name, '/data'));
+        }
+        return $helperNames;
     }
 
     /**
