@@ -7,15 +7,15 @@ MageUnit aims to be a simple unit testing framework for Magento 1.x.
 Clone this repository into a folder of your Magento project. 
 The "src" folder contains all files required by the framework. 
 The "tests" folder contains tests for the framework which will tell you if it is working as expected.
-Edit include paths in phpunit.xml.dist file in the tests folder to match your directory tree.
+Copy content of phpunit.xml.dist to a phpunit.xml file and edit include paths and path to Mage.php to match your directory tree.
 Launch the tests with PHPUnit.
 
 All tests should pass. If not, there is a problem with your setup (or a bug in the framework).
 
 ##Write your own tests
 
-You can create a new directory containing your tests. 
-Make sure your PHPUnit configuration calls the frameworks test listener and that your include paths are correct.
+You can create a new directory containing your tests anywhere you like. 
+Make sure your PHPUnit configuration calls the frameworks test listener and that your include path is correct, so should be your path to Mage.php.
 All your test classes should inherit from **MageUnit_Framework_TestCase** in order to have access to utility methods of the framework.
 
 Your directory could look like the following, but you can totally separate your tests from those of the framework :
@@ -30,7 +30,7 @@ Your directory could look like the following, but you can totally separate your 
              |--MageUnit
              |--YourTests
              |--bootstrap.php
-             |--phpunit.xml.dist
+             |--phpunit.xml
 
 ##API
 
