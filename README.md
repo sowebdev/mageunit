@@ -16,6 +16,7 @@ All tests should pass. If not, there is a problem with your setup (or a bug in t
 
 You can create a new directory containing your tests anywhere you like. 
 Make sure your PHPUnit configuration calls the frameworks test listener and that your include path is correct, so should be your path to Mage.php.
+You can create your own bootstrap file, but keep in mind that you need to include Mage.php first, then MageUnit_Autoload.php and call `MageUnit_Autoload::enable()`.
 All your test classes should inherit from **MageUnit_Framework_TestCase** in order to have access to utility methods of the framework.
 
 Your directory could look like the following, but you can totally separate your tests from those of the framework :
