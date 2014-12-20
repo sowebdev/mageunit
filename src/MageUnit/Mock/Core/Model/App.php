@@ -11,8 +11,6 @@ class MageUnit_Mock_Core_Model_App extends Mage_Core_Model_App
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue(new MageUnit_Mock_Core_Model_Config());
 
-        Mage::setIsDeveloperMode(true);
-
         $this->init('', 'store');
 
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
