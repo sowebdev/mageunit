@@ -58,4 +58,10 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->_subject->unsetModel('core/store');
         $this->assertInstanceOf('Mage_Core_Model_Store', Mage::getModel('core/store'));
     }
+
+    public function testSetModelWithResource()
+    {
+        $this->_subject->setModel('admin/resource_user', new stdClass());
+        $this->assertInstanceOf('Mage_Admin_Model_Resource_User', Mage::getResourceModel('admin/user'));
+    }
 }
