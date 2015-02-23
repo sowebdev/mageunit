@@ -4,10 +4,24 @@ MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
 ##Usage
 
-Clone this repository into a folder of your Magento project. 
+The simplest way to install this framework is to use Composer. Create a composer.json file in your project's root directory having at least following content :
+
+	{
+	    "repositories": [
+	        {
+	            "type": "vcs",
+	            "url": "https://github.com/sowebdev/mageunit"
+	        }
+	    ],
+	    "require": {
+	        "sowebdev/mageunit": "dev-master"
+	    }
+	}
+
+By default, this will install the framework in Magento's lib folder.
+
 The "src" folder contains all files required by the framework. 
 The "tests" folder contains tests for the framework which will tell you if it is working as expected.
-Copy content of phpunit.xml.dist to a phpunit.xml file and edit include paths and path to Mage.php to match your directory tree.
 Launch the tests with PHPUnit.
 
 All tests should pass. If not, there is a problem with your setup (or a bug in the framework).
@@ -16,20 +30,20 @@ All tests should pass. If not, there is a problem with your setup (or a bug in t
 
 You can create a new directory containing your tests anywhere you like. 
 Make sure your PHPUnit configuration calls the frameworks test listener and that your include path is correct, so should be your path to Mage.php.
+To do so, copy content of phpunit.xml.dist to a phpunit.xml file and edit include paths and path to Mage.php to match your directory tree.
 You can create your own bootstrap file, but keep in mind that you need to include Mage.php first, then MageUnit_Autoload.php and call `MageUnit_Autoload::enable()`.
 All your test classes should inherit from **MageUnit_Framework_TestCase** in order to have access to utility methods of the framework.
 
-Your directory could look like the following, but you can totally separate your tests from those of the framework :
+By default, the directory structure looks like the following, but you can totally separate your tests from those of the framework :
 
     Root
     |--app
     |--...
-    |--tests
+    |--lib
        |--mageunit
           |--src
           |--tests
              |--MageUnit
-             |--YourTests
              |--bootstrap.php
              |--phpunit.xml
 
