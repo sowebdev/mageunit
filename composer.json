@@ -1,0 +1,22 @@
+{
+  "name": "sowebdev/mageunit",
+  "type": "magento-library",
+  "description": "Simple unit testing framework for Magento 1.x",
+  "keywords": [
+    "phpunit",
+    "magento",
+    "test"
+  ],
+  "homepage": "https://github.com/sowebdev/mageunit",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sören Ohnmeiss",
+      "email": "soren.ohnmeiss@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "composer/installers": "~1.0"
+  }
+}
