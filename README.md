@@ -2,7 +2,7 @@
 
 MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
-##Usage
+## Usage
 
 The simplest way to install this framework is to use Composer. Create a composer.json file in your project's root directory having at least following content :
 
@@ -26,7 +26,7 @@ Launch the tests with PHPUnit.
 
 All tests should pass. If not, there is a problem with your setup (or a bug in the framework).
 
-##Write your own tests
+## Write your own tests
 
 You can create a new directory containing your tests anywhere you like. 
 Make sure your PHPUnit configuration calls the frameworks test listener and that your include path is correct, so should be your path to Mage.php.
@@ -47,12 +47,14 @@ By default, the directory structure looks like the following, but you can totall
              |--bootstrap.php
              |--phpunit.xml
 
-##API
+## API
+
+### Factory methods
 
 Magento makes use of factory methods (Mage::getModel(), Mage::helper()...) to build new instances of a class.
 Using the frameworks methods it is possible to easily configure objects that should be returned by such calls.
 
-### Models
+#### Models
 
     $this->setModel('core/store', new stdClass());
     Mage::getModel('core/store');//returns an instance of stdClass
@@ -60,7 +62,7 @@ Using the frameworks methods it is possible to easily configure objects that sho
     $this->unsetModel('core/store');
     Mage::getModel('core/store');//returns an instance of Mage_Core_Model_Store
 
-### Helpers
+#### Helpers
 
     $this->setHelper('core', new stdClass());
     Mage::helper('core');//returns an instance of stdClass
@@ -68,7 +70,7 @@ Using the frameworks methods it is possible to easily configure objects that sho
     $this->unsetHelper('core');
     Mage::helper('core');//returns an instance of Mage_Core_Helper_Data
     
-### Singletons
+#### Singletons
 
     $this->setSingleton('core/store', new stdClass());
     Mage::getSingleton('core/store');//returns an instance of stdClass
@@ -76,3 +78,12 @@ Using the frameworks methods it is possible to easily configure objects that sho
     $this->unsetSingleton('core/store');
     Mage::getSingleton('core/store');//returns an instance of Mage_Core_Model_Store
 
+### Store Configuration
+
+You can set and reset any store configuration like this :
+
+    $this->setConfig('general/store_information/name', 'my value');
+    Mage::getStoreConfig('general/store_information/name');//Will return 'my value'
+    
+    $this->resetConfig();
+    Mage::getStoreConfig('general/store_information/name');//Will return real value

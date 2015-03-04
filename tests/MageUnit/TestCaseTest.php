@@ -64,4 +64,17 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->_subject->setModel('admin/resource_user', new stdClass());
         $this->assertInstanceOf('Mage_Admin_Model_Resource_User', Mage::getResourceModel('admin/user'));
     }
+
+    public function testSetAndResetConfig()
+    {
+        $this->_subject->setConfig('general/store_information/name', 'fake');
+        $this->assertEquals('fake', Mage::getStoreConfig('general/store_information/name'));
+
+        $this->_subject->setConfig('general/store_information/name', 'fake!!!', 1);
+        $this->assertEquals('fake!!!', Mage::app()->getStore(1)->getConfig('general/store_information/name'));
+
+        $this->_subject->resetConfig();
+        $this->assertNotEquals('fake', Mage::getStoreConfig('general/store_information/name'));
+        $this->assertNotEquals('fake!!!', Mage::app()->getStore(1)->getConfig('general/store_information/name'));
+    }
 }

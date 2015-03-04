@@ -97,4 +97,39 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getConfig()->unregisterModelMock($name);
     }
+
+    /**
+     * Defines value of a given configuration path
+     *
+     * @param string $path
+     * @param mixed $value
+     * @param null|string|bool|int|Mage_Core_Model_Store $store
+     */
+    public function setConfig($path, $value, $store = null)
+    {
+        $store = Mage::app()->getStore($store);
+        $reflectionProperty = new ReflectionProperty($store, '_configCache');
+        $reflectionProperty->setAccessible(true);
+        $currentCache = $reflectionProperty->getValue($store);
+        if (!is_array($currentCache)) {
+            $currentCache = array();
+        }
+        $currentCache = array_merge($currentCache, array($path => $value));
+        $reflectionProperty->setValue($store, $currentCache);
+        $reflectionProperty->setAccessible(false);
+    }
+
+    /**
+     * Resets configuration cache
+     *
+     * @param null|string|bool|int|Mage_Core_Model_Store $store
+     */
+    public function resetConfig($store = null)
+    {
+        $store = Mage::app()->getStore($store);
+        $reflectionProperty = new ReflectionProperty($store, '_configCache');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($store, array());
+        $reflectionProperty->setAccessible(false);
+    }
 }
