@@ -99,6 +99,27 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Mocks a block
+     *
+     * @param string $name
+     * @param object $mockObject
+     */
+    public function setBlock($name, $mockObject)
+    {
+        Mage::app()->getLayout()->registerBlockMock($name, $mockObject);
+    }
+
+    /**
+     * Unsets currently registered block mock
+     *
+     * @param string $name
+     */
+    public function unsetBlock($name)
+    {
+        Mage::app()->getLayout()->unregisterBlockMock($name);
+    }
+
+    /**
      * Defines value of a given configuration path
      *
      * @param string $path

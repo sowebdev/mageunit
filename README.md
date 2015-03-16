@@ -77,6 +77,14 @@ Using the frameworks methods it is possible to easily configure objects that sho
     
     $this->unsetSingleton('core/store');
     Mage::getSingleton('core/store');//returns an instance of Mage_Core_Model_Store
+    
+#### Blocks
+
+    $this->setBlock('core/template', new Varien_Object());
+    Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object
+    
+    $this->unsetBlock('core/template');
+    Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Mage_Core_Block_Template
 
 ### Store Configuration
 

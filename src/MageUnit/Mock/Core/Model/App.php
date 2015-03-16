@@ -14,5 +14,7 @@ class MageUnit_Mock_Core_Model_App extends Mage_Core_Model_App
         $this->init('', 'store');
 
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+
+        Mage::register('_singleton/core/layout', new MageUnit_Mock_Core_Model_Layout());
     }
 } 
