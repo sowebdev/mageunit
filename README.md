@@ -2,6 +2,16 @@
 
 MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
+##Build status
+
+**Latest Release**
+
+![master branch](https://travis-ci.org/sowebdev/mageunit.svg?branch=master)
+
+**Development branch**
+
+![devel branch](https://travis-ci.org/sowebdev/mageunit.svg?branch=devel)
+
 ## Usage
 
 The simplest way to install this framework is to use Composer. Create a composer.json file in your project's root directory having at least following content :
