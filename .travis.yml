@@ -1,0 +1,52 @@
+language: php
+
+branches:
+  only:
+    - master
+    - devel
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  - MAGENTO_VERSION="magento-mirror-1.4.2.0"
+  - MAGENTO_VERSION="magento-mirror-1.5.1.0"
+  - MAGENTO_VERSION="magento-ce-1.6.2.0"
+  - MAGENTO_VERSION="magento-ce-1.7.0.2"
+  - MAGENTO_VERSION="magento-ce-1.8.1.0"
+  - MAGENTO_VERSION="magento-ce-1.9.0.1"
+  - MAGENTO_VERSION="magento-ce-1.9.1.0"
+
+matrix:
+  fast_finish: true
+  exclude:
+    # Newer Magento versions uses newer PHP versions
+    - php: 5.3
+      env: MAGENTO_VERSION="magento-ce-1.9.0.1"
+
+    - php: 5.3
+      env: MAGENTO_VERSION="magento-ce-1.9.1.0"
+
+    # Old Magento versions are not officially supported to run with PHP 5.5
+    - php: 5.5
+      env: MAGENTO_VERSION="magento-mirror-1.4.2.0"
+
+    - php: 5.5
+      env: MAGENTO_VERSION="magento-mirror-1.5.1.0"
+
+    - php: 5.5
+      env: MAGENTO_VERSION="magento-ce-1.6.2.0"
+
+    - php: 5.5
+      env: MAGENTO_VERSION="magento-ce-1.7.0.2"
+
+before_script:
+- mysql -e 'CREATE DATABASE IF NOT EXISTS `magento_travis`;'
+- wget https://raw.githubusercontent.com/netz98/n98-magerun/master/n98-magerun.phar
+- chmod +x ./n98-magerun.phar
+- ./n98-magerun.phar install --magentoVersionByName="${MAGENTO_VERSION}" --installationFolder="./${MAGENTO_VERSION}" --dbHost=localhost --dbUser=root --dbPass='' --dbName="magento_travis" --installSampleData=no --useDefaultConfigParams=yes --baseUrl="http://travis.magento.local/"
+- export MAGE="./${MAGENTO_VERSION}/app/Mage.php"
+
+script : phpunit -c phpunit.xml.travis

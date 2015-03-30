@@ -1,0 +1,16 @@
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <php>
+        <!-- Define path to framework and Mage class -->
+        <includePath>../src</includePath>
+        <env name="MAGE" value="../../../app/Mage.php"/>
+    </php>
+    <listeners>
+        <!-- Define test listener which will enable us to mock application parts -->
+        <listener class="MageUnit_Framework_TestListener"/>
+    </listeners>
+    <testsuites>
+        <testsuite name="MageUnit">
+            <directory>MageUnit</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
