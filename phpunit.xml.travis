@@ -1,7 +1,7 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <php>
         <!-- Define path to framework and Mage class -->
-        <includePath>../src</includePath>
+        <includePath>./src</includePath>
         <env name="MAGE" value="../../../app/Mage.php"/>
     </php>
     <listeners>
