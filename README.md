@@ -6,11 +6,11 @@ MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
 **Latest Release**
 
-![master branch](https://travis-ci.org/sowebdev/mageunit.svg?branch=master)
+[![Build Status](https://travis-ci.org/sowebdev/mageunit.svg?branch=master)](https://travis-ci.org/sowebdev/mageunit)
 
 **Development branch**
 
-![devel branch](https://travis-ci.org/sowebdev/mageunit.svg?branch=devel)
+[![Build Status](https://travis-ci.org/sowebdev/mageunit.svg?branch=devel)](https://travis-ci.org/sowebdev/mageunit)
 
 ## Usage
 
