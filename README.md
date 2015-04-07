@@ -98,10 +98,12 @@ Using the frameworks methods it is possible to easily configure objects that sho
 
 ### Store Configuration
 
-You can set and reset any store configuration like this :
+You can set and unset and reset any store configuration like this :
 
     $this->setConfig('general/store_information/name', 'my value');
     Mage::getStoreConfig('general/store_information/name');//Will return 'my value'
     
-    $this->resetConfig();
+    $this->unsetConfig('general/store_information/name');
     Mage::getStoreConfig('general/store_information/name');//Will return real value
+    
+    $this->resetConfig();//Will clean every configuration value which was set with setConfig()

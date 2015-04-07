@@ -141,16 +141,45 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Resets configuration cache
+     * Resets value of a given configuration path
      *
+     * @param string $path
      * @param null|string|bool|int|Mage_Core_Model_Store $store
      */
-    public function resetConfig($store = null)
+    public function unsetConfig($path, $store = null)
     {
         $store = Mage::app()->getStore($store);
         $reflectionProperty = new ReflectionProperty($store, '_configCache');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($store, array());
+        $currentCache = $reflectionProperty->getValue($store);
+        if (!is_array($currentCache)) {
+            $currentCache = array();
+        }
+        if (isset($currentCache[$path])) {
+            unset($currentCache[$path]);
+        }
+        $reflectionProperty->setValue($store, $currentCache);
         $reflectionProperty->setAccessible(false);
+    }
+
+    /**
+     * Resets configuration cache
+     *
+     * @param null|string|bool|int|Mage_Core_Model_Store $store if null, resets config of all stores
+     */
+    public function resetConfig($store = null)
+    {
+        if (!$store) {
+            $stores = Mage::app()->getStores(true);
+        } else {
+            $stores = array($store);
+        }
+        foreach ($stores as $s) {
+            $s = Mage::app()->getStore($s);
+            $reflectionProperty = new ReflectionProperty($s, '_configCache');
+            $reflectionProperty->setAccessible(true);
+            $reflectionProperty->setValue($s, array());
+            $reflectionProperty->setAccessible(false);
+        }
     }
 }

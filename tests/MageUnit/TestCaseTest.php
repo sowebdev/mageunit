@@ -77,16 +77,29 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Template', Mage::app()->getLayout()->createBlock('core/template'));
     }
 
-    public function testSetAndResetConfig()
+    public function testSetConfig()
     {
         $this->_subject->setConfig('general/store_information/name', 'fake');
         $this->assertEquals('fake', Mage::getStoreConfig('general/store_information/name'));
+    }
 
-        $this->_subject->setConfig('general/store_information/name', 'fake!!!', 1);
-        $this->assertEquals('fake!!!', Mage::app()->getStore(1)->getConfig('general/store_information/name'));
+    public function testUnsetConfig()
+    {
+        $this->_subject->unsetConfig('general/store_information/name');
+        $this->assertNotEquals('fake', Mage::getStoreConfig('general/store_information/name'));
+    }
+
+    public function testResetConfig()
+    {
+        $this->_subject->setConfig('general/store_information/name', 'fake');
+        $this->_subject->setConfig('general/store_information/name', 'fake!!!', 0);
+
+        $this->assertEquals('fake', Mage::getStoreConfig('general/store_information/name'));
+        $this->assertEquals('fake!!!', Mage::app()->getStore(0)->getConfig('general/store_information/name'));
 
         $this->_subject->resetConfig();
+
         $this->assertNotEquals('fake', Mage::getStoreConfig('general/store_information/name'));
-        $this->assertNotEquals('fake!!!', Mage::app()->getStore(1)->getConfig('general/store_information/name'));
+        $this->assertNotEquals('fake!!!', Mage::app()->getStore(0)->getConfig('general/store_information/name'));
     }
 }
