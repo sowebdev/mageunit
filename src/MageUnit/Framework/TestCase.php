@@ -1,65 +1,77 @@
 <?php
 class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
 {
-    protected $_singletonRegistryPrefix = '_singleton/';
-    protected $_helperRegistryPrefix = '_helper/';
+    /**
+     * Returns application mock
+     *
+     * @return MageUnit_Mock_Core_Model_App
+     */
+    protected function _getApp()
+    {
+        return Mage::app();
+    }
 
     /**
-     * Mocks a singleton
+     * Defines a singleton mock
      *
      * @param string $name
      * @param object $mockObject
      */
     public function setSingleton($name, $mockObject)
     {
-        $registryKey = $this->_singletonRegistryPrefix . $name;
-        Mage::unregister($registryKey);
-        Mage::register($registryKey, $mockObject);
+        $this->_getApp()->setSingleton($name, $mockObject);
     }
 
     /**
-     * Unsets currently registered singleton
+     * Unset currently registered singleton mock
      *
      * @param string $name
      */
     public function unsetSingleton($name)
     {
-        $registryKey = $this->_singletonRegistryPrefix . $name;
-        Mage::unregister($registryKey);
+        $this->_getApp()->unsetSingleton($name);
     }
 
     /**
-     * Mocks a helper
+     * Reset all registered singletons
+     */
+    public function resetSingletons()
+    {
+        $this->_getApp()->resetSingletonMocks();
+    }
+
+    /**
+     * Defines a helper mock
      *
      * @param string $name
      * @param object $mockObject
      */
     public function setHelper($name, $mockObject)
     {
-        $registerNames = $this->_getHelperNameWithAlias($name);
-        foreach ($registerNames as $n) {
-            $registerKey = $this->_helperRegistryPrefix . $n;
-            Mage::unregister($registerKey);
-            Mage::register($registerKey, $mockObject);
-        }
+        $this->_getApp()->setHelper($name, $mockObject);
     }
 
     /**
-     * Unsets currently registered helper
+     * Unset currently registered helper mock
      *
      * @param string $name
      */
     public function unsetHelper($name)
     {
-        $unregisterNames = $this->_getHelperNameWithAlias($name);
-        foreach ($unregisterNames as $n) {
-            $registerKey = $this->_helperRegistryPrefix . $n;
-            Mage::unregister($registerKey);
-        }
+        $this->_getApp()->unsetHelper($name);
     }
 
     /**
-     * Checks if a helper name could have an alias (this happens with default "data" helpers)
+     * Reset all registered helpers
+     */
+    public function resetHelpers()
+    {
+        $this->_getApp()->resetHelperMocks();
+    }
+
+    /**
+     * Checks if a helper name could have an alias
+     * (this happens with default "data" helpers)
      * and returns an array of valid names.
      *
      * @param string $name
@@ -78,45 +90,61 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mocks a model
+     * Defines a model mock
      *
      * @param string $name
      * @param object $mockObject
      */
     public function setModel($name, $mockObject)
     {
-        Mage::app()->getConfig()->registerModelMock($name, $mockObject);
+        $this->_getApp()->getConfig()->registerModelMock($name, $mockObject);
     }
 
     /**
-     * Unsets currently registered model mock
+     * Unset currently registered model mock
      *
      * @param string $name
      */
     public function unsetModel($name)
     {
-        Mage::app()->getConfig()->unregisterModelMock($name);
+        $this->_getApp()->getConfig()->unregisterModelMock($name);
     }
 
     /**
-     * Mocks a block
+     * Reset all registered models
+     */
+    public function resetModels()
+    {
+        $this->_getApp()->getConfig()->resetModelMocks();
+    }
+
+    /**
+     * Defines a block mock
      *
      * @param string $name
      * @param object $mockObject
      */
     public function setBlock($name, $mockObject)
     {
-        Mage::app()->getLayout()->registerBlockMock($name, $mockObject);
+        $this->_getApp()->getLayout()->registerBlockMock($name, $mockObject);
     }
 
     /**
-     * Unsets currently registered block mock
+     * Unset currently registered block mock
      *
      * @param string $name
      */
     public function unsetBlock($name)
     {
-        Mage::app()->getLayout()->unregisterBlockMock($name);
+        $this->_getApp()->getLayout()->unregisterBlockMock($name);
+    }
+
+    /**
+     * Reset all registered blocks
+     */
+    public function resetBlocks()
+    {
+        $this->_getApp()->getLayout()->resetBlockMocks();
     }
 
     /**
@@ -128,16 +156,7 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      */
     public function setConfig($path, $value, $store = null)
     {
-        $store = Mage::app()->getStore($store);
-        $reflectionProperty = new ReflectionProperty($store, '_configCache');
-        $reflectionProperty->setAccessible(true);
-        $currentCache = $reflectionProperty->getValue($store);
-        if (!is_array($currentCache)) {
-            $currentCache = array();
-        }
-        $currentCache = array_merge($currentCache, array($path => $value));
-        $reflectionProperty->setValue($store, $currentCache);
-        $reflectionProperty->setAccessible(false);
+        $this->_getApp()->setConfig($path, $value, $store);
     }
 
     /**
@@ -148,38 +167,17 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      */
     public function unsetConfig($path, $store = null)
     {
-        $store = Mage::app()->getStore($store);
-        $reflectionProperty = new ReflectionProperty($store, '_configCache');
-        $reflectionProperty->setAccessible(true);
-        $currentCache = $reflectionProperty->getValue($store);
-        if (!is_array($currentCache)) {
-            $currentCache = array();
-        }
-        if (isset($currentCache[$path])) {
-            unset($currentCache[$path]);
-        }
-        $reflectionProperty->setValue($store, $currentCache);
-        $reflectionProperty->setAccessible(false);
+        $this->_getApp()->unsetConfig($path, $store);
     }
 
     /**
      * Resets configuration cache
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $store if null, resets config of all stores
+     * @param null|string|bool|int|Mage_Core_Model_Store $store
+     *   if null, resets config of all stores
      */
     public function resetConfig($store = null)
     {
-        if (!$store) {
-            $stores = Mage::app()->getStores(true);
-        } else {
-            $stores = array($store);
-        }
-        foreach ($stores as $s) {
-            $s = Mage::app()->getStore($s);
-            $reflectionProperty = new ReflectionProperty($s, '_configCache');
-            $reflectionProperty->setAccessible(true);
-            $reflectionProperty->setValue($s, array());
-            $reflectionProperty->setAccessible(false);
-        }
+        $this->_getApp()->resetConfig($store);
     }
 }

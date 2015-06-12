@@ -23,7 +23,11 @@ class MageUnit_Mock_Core_Model_Layout extends Mage_Core_Model_Layout
         if (is_string($block)) {
             if (strpos($block, '/')!==false) {
                 if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $block));
+                    Mage::throwException(
+                        Mage::helper('core')->__(
+                            'Invalid block type: %s', $block
+                        )
+                    );
                 }
             }
             if (class_exists($block, false) || mageFindClassFile($block)) {
@@ -31,7 +35,9 @@ class MageUnit_Mock_Core_Model_Layout extends Mage_Core_Model_Layout
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $block));
+            Mage::throwException(
+                Mage::helper('core')->__('Invalid block type: %s', $block)
+            );
         }
         return $block;
     }
@@ -57,5 +63,13 @@ class MageUnit_Mock_Core_Model_Layout extends Mage_Core_Model_Layout
         if (isset($this->_registeredBlockMocks[$blockClass])) {
             unset($this->_registeredBlockMocks[$blockClass]);
         }
+    }
+
+    /**
+     * Resets all block mocks
+     */
+    public function resetBlockMocks()
+    {
+        $this->_registeredBlockMocks = array();
     }
 }

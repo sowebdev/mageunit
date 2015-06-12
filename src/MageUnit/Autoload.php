@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Custom autoload which checks if file exists in include_path before trying to include it.
+ * Custom autoload which checks if file exists in include_path
+ * before trying to include it.
  * This fixes an issue which may appear when Varien_Autoload
  * tries to include a PHPUnit extension which may not be installed.
  */
@@ -15,7 +16,10 @@ class MageUnit_Autoload
     /**
      * This class should be used as a singleton
      */
-    private function __construct() {}
+    private function __construct()
+    {
+
+    }
 
     /**
      * Returns the only instance of the class
@@ -57,7 +61,11 @@ class MageUnit_Autoload
      */
     public function autoload($class)
     {
-        $classFile = str_replace(' ', DIRECTORY_SEPARATOR, ucwords(str_replace('_', ' ', $class)));
+        $classFile = str_replace(
+            ' ',
+            DIRECTORY_SEPARATOR,
+            ucwords(str_replace('_', ' ', $class))
+        );
         $classFile .= '.php';
         $includePaths = explode(PATH_SEPARATOR, get_include_path());
         foreach ($includePaths as $path) {

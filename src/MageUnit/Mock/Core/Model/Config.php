@@ -15,7 +15,8 @@ class MageUnit_Mock_Core_Model_Config extends Mage_Core_Model_Config
      * @param array|object $constructArguments
      * @return Mage_Core_Model_Abstract|false
      */
-    public function getModelInstance($modelClass='', $constructArguments=array())
+    public function getModelInstance(
+        $modelClass='', $constructArguments=array())
     {
         if (isset($this->_registeredModelMocks[$modelClass])) {
             return $this->_registeredModelMocks[$modelClass];
@@ -52,5 +53,13 @@ class MageUnit_Mock_Core_Model_Config extends Mage_Core_Model_Config
         if (isset($this->_registeredModelMocks[$modelClass])) {
             unset($this->_registeredModelMocks[$modelClass]);
         }
+    }
+
+    /**
+     * Resets all model mocks
+     */
+    public function resetModelMocks()
+    {
+        $this->_registeredModelMocks = array();
     }
 }
