@@ -19,7 +19,7 @@ class MageUnit_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testMockedModelInstance()
     {
-        Mage::app()->getConfig()->registerModelMock('core/store', new stdClass());;
+        Mage::app()->getConfig()->registerModelMock('core/store', new stdClass());
         $modelInstance = Mage::app()->getConfig()->getModelInstance('core/store');
         $this->assertInstanceOf('stdClass', $modelInstance);
     }

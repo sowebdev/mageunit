@@ -12,5 +12,9 @@
         <testsuite name="MageUnit">
             <directory>MageUnit</directory>
         </testsuite>
+        <testsuite name="Isolation">
+            <file>Isolation/FirstTest.php</file>
+            <file>Isolation/SecondTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>
