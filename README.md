@@ -14,19 +14,24 @@ MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
 ## Usage
 
-The simplest way to install this framework is to use Composer. Create a composer.json file in your project's root directory having at least following content :
+Make sure you have [PHPUnit 4](https://phpunit.de/) installed.
 
-	{
-	    "repositories": [
-	        {
-	            "type": "vcs",
-	            "url": "https://github.com/sowebdev/mageunit"
-	        }
-	    ],
-	    "require": {
-	        "sowebdev/mageunit": "dev-master"
-	    }
-	}
+The simplest way to install this framework is to use Composer.
+Create a composer.json file in your project's root directory having at least following content :
+
+```js
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sowebdev/mageunit"
+        }
+    ],
+    "require": {
+        "sowebdev/mageunit": "dev-master"
+    }
+}
+```
 
 By default, this will install the framework in Magento's lib folder.
 
@@ -66,44 +71,85 @@ Using the frameworks methods it is possible to easily configure objects that sho
 
 #### Models
 
-    $this->setModel('core/store', new stdClass());
-    Mage::getModel('core/store');//returns an instance of stdClass
-    
-    $this->unsetModel('core/store');
-    Mage::getModel('core/store');//returns an instance of Mage_Core_Model_Store
+```php
+$this->setModel('core/store', new stdClass());
+Mage::getModel('core/store');//returns an instance of stdClass
+```
+
+```php
+$this->unsetModel('core/store');
+Mage::getModel('core/store');//returns an instance of Mage_Core_Model_Store
+```
+
+Replacing a resource model works exactly the same way but you need to pass the identifier of the resource :
+
+```php
+$this->setModel('core/resource_store', new stdClass());
+Mage::getResourceModel('core/store');//returns an instance of stdClass
+```
 
 #### Helpers
 
-    $this->setHelper('core', new stdClass());
-    Mage::helper('core');//returns an instance of stdClass
-    
-    $this->unsetHelper('core');
-    Mage::helper('core');//returns an instance of Mage_Core_Helper_Data
-    
+```php
+$this->setHelper('core', new stdClass());
+Mage::helper('core');//returns an instance of stdClass
+```
+
+```php
+$this->unsetHelper('core');
+Mage::helper('core');//returns an instance of Mage_Core_Helper_Data
+```
+ 
 #### Singletons
 
-    $this->setSingleton('core/store', new stdClass());
-    Mage::getSingleton('core/store');//returns an instance of stdClass
-    
-    $this->unsetSingleton('core/store');
-    Mage::getSingleton('core/store');//returns an instance of Mage_Core_Model_Store
+```php
+$this->setSingleton('core/store', new stdClass());
+Mage::getSingleton('core/store');//returns an instance of stdClass
+```
+
+```php
+$this->unsetSingleton('core/store');
+Mage::getSingleton('core/store');//returns an instance of Mage_Core_Model_Store
+```
     
 #### Blocks
 
-    $this->setBlock('core/template', new Varien_Object());
-    Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object
-    
-    $this->unsetBlock('core/template');
-    Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Mage_Core_Block_Template
+```php
+$this->setBlock('core/template', new Varien_Object());
+Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object
+```
+
+```php
+$this->unsetBlock('core/template');
+Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Mage_Core_Block_Template
+```
 
 ### Store Configuration
 
 You can set and unset and reset any store configuration like this :
 
-    $this->setConfig('general/store_information/name', 'my value');
-    Mage::getStoreConfig('general/store_information/name');//Will return 'my value'
-    
-    $this->unsetConfig('general/store_information/name');
-    Mage::getStoreConfig('general/store_information/name');//Will return real value
-    
-    $this->resetConfig();//Will clean every configuration value which was set with setConfig()
+```php
+$this->setConfig('general/store_information/name', 'my value');
+Mage::getStoreConfig('general/store_information/name');//Will return 'my value'
+```
+
+```php
+$this->unsetConfig('general/store_information/name');
+Mage::getStoreConfig('general/store_information/name');//Will return real value
+```
+
+###Reset all replacements
+
+You can easily reset all object or configuration replacements at once using following methods :
+
+```php
+$this->resetModels();
+$this->resetSingletons();
+$this->resetHelpers();
+$this->resetBlocks();
+$this->resetConfig();
+```
+
+This is done automatically at the end of each test class to avoid any side effects.
+This means you will be able to share replacements between test methods of a same test class but not between
+test methods of different test classes.
