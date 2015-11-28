@@ -13,21 +13,21 @@ php:
 env:
   - MAGENTO_VERSION="magento-mirror-1.4.2.0"
   - MAGENTO_VERSION="magento-mirror-1.5.1.0"
-  - MAGENTO_VERSION="magento-ce-1.6.2.0"
-  - MAGENTO_VERSION="magento-ce-1.7.0.2"
-  - MAGENTO_VERSION="magento-ce-1.8.1.0"
-  - MAGENTO_VERSION="magento-ce-1.9.0.1"
-  - MAGENTO_VERSION="magento-ce-1.9.1.0"
+  - MAGENTO_VERSION="magento-mirror-1.6.2.0"
+  - MAGENTO_VERSION="magento-mirror-1.7.0.2"
+  - MAGENTO_VERSION="magento-mirror-1.8.1.0"
+  - MAGENTO_VERSION="magento-mirror-1.9.1.1"
+  - MAGENTO_VERSION="magento-mirror-1.9.2.2"
 
 matrix:
   fast_finish: true
   exclude:
-    # Newer Magento versions uses newer PHP versions
+    # Newer Magento versions use newer PHP versions
     - php: 5.3
-      env: MAGENTO_VERSION="magento-ce-1.9.0.1"
+      env: MAGENTO_VERSION="magento-mirror-1.9.1.1"
 
     - php: 5.3
-      env: MAGENTO_VERSION="magento-ce-1.9.1.0"
+      env: MAGENTO_VERSION="magento-mirror-1.9.2.2"
 
     # Old Magento versions are not officially supported to run with PHP 5.5
     - php: 5.5
@@ -37,10 +37,10 @@ matrix:
       env: MAGENTO_VERSION="magento-mirror-1.5.1.0"
 
     - php: 5.5
-      env: MAGENTO_VERSION="magento-ce-1.6.2.0"
+      env: MAGENTO_VERSION="magento-mirror-1.6.2.0"
 
     - php: 5.5
-      env: MAGENTO_VERSION="magento-ce-1.7.0.2"
+      env: MAGENTO_VERSION="magento-mirror-1.7.0.2"
 
 before_script:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS `magento_travis`;'
