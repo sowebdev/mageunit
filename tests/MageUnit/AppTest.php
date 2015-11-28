@@ -5,4 +5,9 @@ class MageUnit_AppTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('MageUnit_Mock_Core_Model_App', Mage::app());
     }
+
+    public function testStoreHasBeenMocked()
+    {
+        $this->assertInstanceOf('MageUnit_Mock_Core_Model_Store', Mage::app()->getStore());
+    }
 }

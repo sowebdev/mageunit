@@ -29,6 +29,20 @@ class MageUnit_Mock_Core_Model_App extends Mage_Core_Model_App
             '_singleton/core/layout',
             new MageUnit_Mock_Core_Model_Layout()
         );
+
+        $this->getConfig()->registerModelMock(
+            'core_resource/store_collection',
+            'MageUnit_Mock_Core_Model_Resource_Store_Collection'
+        );
+        $this->getConfig()->registerModelMock(
+            'core/store',
+            'MageUnit_Mock_Core_Model_Store'
+        );
+
+        $this->reinitStores();
+
+        $this->getConfig()->unregisterModelMock('core_resource/store_collection');
+        $this->getConfig()->unregisterModelMock('core/store');
     }
 
     /**

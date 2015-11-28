@@ -118,4 +118,15 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('stdClass', $anotherModelInstance);
         $this->assertObjectNotHasAttribute('id', $anotherModelInstance);
     }
+
+    /**
+     * It should be possible to set the value of a configuration path to null
+     *
+     * @ticket #1
+     */
+    public function testSetConfigCanBeNull()
+    {
+        $this->_subject->setConfig('general/store_information/name', null);
+        $this->assertNull(Mage::getStoreConfig('general/store_information/name'));
+    }
 }
