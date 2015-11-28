@@ -35,6 +35,10 @@ class MageUnit_Mock_Core_Model_App extends Mage_Core_Model_App
             'MageUnit_Mock_Core_Model_Resource_Store_Collection'
         );
         $this->getConfig()->registerModelMock(
+            'core_mysql4/store_collection',
+            'MageUnit_Mock_Core_Model_Mysql4_Store_Collection'
+        );
+        $this->getConfig()->registerModelMock(
             'core/store',
             'MageUnit_Mock_Core_Model_Store'
         );
@@ -42,6 +46,7 @@ class MageUnit_Mock_Core_Model_App extends Mage_Core_Model_App
         $this->reinitStores();
 
         $this->getConfig()->unregisterModelMock('core_resource/store_collection');
+        $this->getConfig()->unregisterModelMock('core_mysql4/store_collection');
         $this->getConfig()->unregisterModelMock('core/store');
     }
 

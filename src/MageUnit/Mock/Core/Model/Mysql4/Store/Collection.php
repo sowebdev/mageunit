@@ -1,0 +1,4 @@
+<?php
+class MageUnit_Mock_Core_Model_Mysql4_Store_Collection extends MageUnit_Mock_Core_Model_Resource_Store_Collection
+{
+}
