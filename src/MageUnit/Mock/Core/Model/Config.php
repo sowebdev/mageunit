@@ -19,7 +19,12 @@ class MageUnit_Mock_Core_Model_Config extends Mage_Core_Model_Config
         $modelClass='', $constructArguments=array())
     {
         if (isset($this->_registeredModelMocks[$modelClass])) {
-            return $this->_registeredModelMocks[$modelClass];
+            if (is_object($this->_registeredModelMocks[$modelClass])) {
+                return $this->_registeredModelMocks[$modelClass];
+            } elseif (is_string($this->_registeredModelMocks[$modelClass])) {
+                return new $this->_registeredModelMocks[$modelClass];
+            }
+            return false;
         }
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
@@ -33,14 +38,14 @@ class MageUnit_Mock_Core_Model_Config extends Mage_Core_Model_Config
     }
 
     /**
-     * Register a model mock
+     * Register a model replacement
      *
-     * @param string $modelClass
-     * @param object $mockObject
+     * @param string $alias eg : 'core/store'
+     * @param mixed $replacement an object when using it as singleton, the name of a class otherwise
      */
-    public function registerModelMock($modelClass, $mockObject)
+    public function registerModelMock($alias, $replacement)
     {
-        $this->_registeredModelMocks[$modelClass] = $mockObject;
+        $this->_registeredModelMocks[$alias] = $replacement;
     }
 
     /**

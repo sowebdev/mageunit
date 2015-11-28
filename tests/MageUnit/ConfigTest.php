@@ -23,4 +23,19 @@ class MageUnit_ConfigTest extends PHPUnit_Framework_TestCase
         $modelInstance = Mage::app()->getConfig()->getModelInstance('core/store');
         $this->assertInstanceOf('stdClass', $modelInstance);
     }
+
+    /**
+     * Model factories should be able to return either new instances or singletons
+     *
+     * @ticket #3
+     */
+    public function testGetModelCanReturnNewInstanceOnEachCall()
+    {
+        Mage::app()->getConfig()->registerModelMock('core/store', 'stdClass');
+        $modelInstance = Mage::app()->getConfig()->getModelInstance('core/store');
+        $this->assertInstanceOf('stdClass', $modelInstance);
+        $modelInstance->id = 'something';
+        $anotherModelInstance = Mage::app()->getConfig()->getModelInstance('core/store');
+        $this->assertObjectNotHasAttribute('id', $anotherModelInstance);
+    }
 }

@@ -102,4 +102,20 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals('fake', Mage::getStoreConfig('general/store_information/name'));
         $this->assertNotEquals('fake!!!', Mage::app()->getStore(0)->getConfig('general/store_information/name'));
     }
+
+    /**
+     * Model factories should be able to return either new instances or singletons
+     *
+     * @ticket #3
+     */
+    public function testGetModelCanReturnNewInstanceOnEachCall()
+    {
+        $this->_subject->setModel('core/store', 'stdClass');
+        $modelInstance = Mage::getModel('core/store');
+        $this->assertInstanceOf('stdClass', $modelInstance);
+        $modelInstance->id = 'something';
+        $anotherModelInstance = Mage::getModel('core/store');
+        $this->assertInstanceOf('stdClass', $anotherModelInstance);
+        $this->assertObjectNotHasAttribute('id', $anotherModelInstance);
+    }
 }

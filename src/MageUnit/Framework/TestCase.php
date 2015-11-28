@@ -93,11 +93,11 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      * Defines a model mock
      *
      * @param string $name
-     * @param object $mockObject
+     * @param mixed $replacement an object when using it as singleton, the name of a class otherwise
      */
-    public function setModel($name, $mockObject)
+    public function setModel($name, $replacement)
     {
-        $this->_getApp()->getConfig()->registerModelMock($name, $mockObject);
+        $this->_getApp()->getConfig()->registerModelMock($name, $replacement);
     }
 
     /**
