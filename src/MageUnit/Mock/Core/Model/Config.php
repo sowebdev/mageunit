@@ -22,7 +22,7 @@ class MageUnit_Mock_Core_Model_Config extends Mage_Core_Model_Config
             if (is_object($this->_registeredModelMocks[$modelClass])) {
                 return $this->_registeredModelMocks[$modelClass];
             } elseif (is_string($this->_registeredModelMocks[$modelClass])) {
-                return new $this->_registeredModelMocks[$modelClass];
+                return new $this->_registeredModelMocks[$modelClass]($constructArguments);
             }
             return false;
         }
