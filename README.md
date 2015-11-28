@@ -2,7 +2,7 @@
 
 MageUnit aims to be a simple unit testing framework for Magento 1.x.
 
-##Build status
+## Build status
 
 **Latest Release**
 
@@ -73,7 +73,7 @@ Using the frameworks methods it is possible to easily configure objects that sho
 
 ```php
 $this->setModel('core/store', new stdClass());
-Mage::getModel('core/store');//returns an instance of stdClass
+Mage::getModel('core/store');//returns given instance of stdClass
 ```
 
 ```php
@@ -86,6 +86,16 @@ Replacing a resource model works exactly the same way but you need to pass the i
 ```php
 $this->setModel('core/resource_store', new stdClass());
 Mage::getResourceModel('core/store');//returns an instance of stdClass
+```
+
+When passing an object to setModel() as second argument, this object will work like a singleton, which means that
+each call to getModel() with the same class alias will return the same class instance. When the second argument
+is a string containing a class name, then each call to that method will return a new instance of this class.
+
+```php
+$this->setModel('core/store', 'stdClass');
+Mage::getModel('core/store');//returns an instance of stdClass
+Mage::getModel('core/store');//returns another instance of stdClass
 ```
 
 #### Helpers
@@ -138,7 +148,7 @@ $this->unsetConfig('general/store_information/name');
 Mage::getStoreConfig('general/store_information/name');//Will return real value
 ```
 
-###Reset all replacements
+### Reset all replacements
 
 You can easily reset all object or configuration replacements at once using following methods :
 
