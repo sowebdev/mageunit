@@ -18,7 +18,11 @@ class MageUnit_Mock_Core_Model_Layout extends Mage_Core_Model_Layout
     protected function _getBlockInstance($block, array $attributes=array())
     {
         if (isset($this->_registeredBlockMocks[$block])) {
-            return $this->_registeredBlockMocks[$block];
+            if (is_object($this->_registeredBlockMocks[$block])) {
+                return $this->_registeredBlockMocks[$block];
+            } elseif (is_string($this->_registeredBlockMocks[$block])) {
+                return new $this->_registeredBlockMocks[$block]($attributes);
+            }
         }
         if (is_string($block)) {
             if (strpos($block, '/')!==false) {
@@ -43,14 +47,14 @@ class MageUnit_Mock_Core_Model_Layout extends Mage_Core_Model_Layout
     }
 
     /**
-     * Register a block mock
+     * Register a block replacement
      *
-     * @param string $blockClass
-     * @param object $mockObject
+     * @param string $blockClass eg : 'core/template'
+     * @param mixed $replacement an object when using it as singleton, the name of a class otherwise
      */
-    public function registerBlockMock($blockClass, $mockObject)
+    public function registerBlockMock($blockClass, $replacement)
     {
-        $this->_registeredBlockMocks[$blockClass] = $mockObject;
+        $this->_registeredBlockMocks[$blockClass] = $replacement;
     }
 
     /**

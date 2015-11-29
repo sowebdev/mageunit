@@ -122,11 +122,11 @@ class MageUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
      * Defines a block mock
      *
      * @param string $name
-     * @param object $mockObject
+     * @param mixed $replacement an object when using it as singleton, the name of a class otherwise
      */
-    public function setBlock($name, $mockObject)
+    public function setBlock($name, $replacement)
     {
-        $this->_getApp()->getLayout()->registerBlockMock($name, $mockObject);
+        $this->_getApp()->getLayout()->registerBlockMock($name, $replacement);
     }
 
     /**

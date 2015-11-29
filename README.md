@@ -130,12 +130,22 @@ Mage::getSingleton('core/store');//returns an instance of Mage_Core_Model_Store
 
 ```php
 $this->setBlock('core/template', new Varien_Object());
-Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object
+Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object and not Mage_Core_Block_Template
 ```
 
 ```php
 $this->unsetBlock('core/template');
 Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Mage_Core_Block_Template
+```
+
+When passing an object to setBlock() as second argument, this object will work like a singleton, which means that
+each call to createBlock() with the same class alias will return the same class instance. When the second argument
+is a string containing a class name, then each call to that method will return a new instance of this class.
+
+```php
+$this->setBlock('core/template', 'Varien_Object');
+Mage::app()->getLayout()->createBlock('core/template');//returns an instance of Varien_Object
+Mage::app()->getLayout()->createBlock('core/template');//returns another instance of Varien_Object
 ```
 
 ### Store Configuration

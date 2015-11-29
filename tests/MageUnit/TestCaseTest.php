@@ -68,7 +68,9 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
     public function testSetBlock()
     {
         $this->_subject->setBlock('core/template', new Varien_Object());
-        $this->assertInstanceOf('Varien_Object', Mage::app()->getLayout()->createBlock('core/template'));
+        $block = Mage::app()->getLayout()->createBlock('core/template');
+        $this->assertInstanceOf('Varien_Object', $block);
+        $this->assertNotInstanceOf('Mage_Core_Block_Template', $block);
     }
 
     public function testUnsetBlock()
@@ -128,5 +130,24 @@ class MageUnit_TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $this->_subject->setConfig('general/store_information/name', null);
         $this->assertNull(Mage::getStoreConfig('general/store_information/name'));
+    }
+
+    /**
+     * Block factories should be able to return either new instances or singletons
+     *
+     * @ticket #4
+     */
+    public function testCreateBlockCanReturnNewInstanceOnEachCall()
+    {
+        $this->_subject->setBlock('core/template', 'Varien_Object');
+        $blockInstance = Mage::app()->getLayout()->createBlock('core/template');
+        $this->assertInstanceOf('Varien_Object', $blockInstance);
+        $this->assertNotInstanceOf('Mage_Core_Block_Abstract', $blockInstance);
+        $blockInstance->setData('mykey', 'myvalue');
+
+        $anotherBlockInstance = Mage::app()->getLayout()->createBlock('core/template');
+        $this->assertInstanceOf('Varien_Object', $anotherBlockInstance);
+        $this->assertNotInstanceOf('Mage_Core_Block_Abstract', $anotherBlockInstance);
+        $this->assertNull($anotherBlockInstance->getData('mykey'));
     }
 }
