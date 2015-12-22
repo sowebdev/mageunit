@@ -1,5 +1,9 @@
 #CHANGELOG
 
+## 0.7.1 (2015-12-22)
+
+  * Fixed config cache initialization
+
 ## 0.7.0 (2015-11-29)
 
   * Model and Block factories are able to return either new instances or singletons
